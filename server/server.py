@@ -8,6 +8,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Make the app."""
+        self.set_header("Access-Control-Allow-Origin", "*")
         self.write("Hello, world")
 
 
