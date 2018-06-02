@@ -21,5 +21,5 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     app = make_app()
-    app.listen(80)
+    app.listen()
     tornado.ioloop.IOLoop.current().start()
