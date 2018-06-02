@@ -18,7 +18,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """Make the app."""
         payload = json.loads(self.request.body)
         for i in payload:
-            print(" : ".join([i, payload[i]]))
+            print(" : ".join([str(i), payload[i]]))
             # print(payload[i])
         self.write('cool youtube action buddy')
 
