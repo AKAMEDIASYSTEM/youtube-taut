@@ -1,0 +1,22 @@
+{
+  "name" : "taut line",
+  "version" : "1.1",
+  "description" : "AKA this does stuff with every youtube action",
+  "permissions": [ "declarativeContent", "http://*.youtube.com/", "https://*.youtube.com/" ],
+  "icons" : {
+    "48" : "video-48.png",
+    "128" : "video-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "inject.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": ["script.js"],
+  "manifest_version": 2
+}
