@@ -3,6 +3,31 @@ import tornado.ioloop
 import tornado.web
 
 
+class BaseHandler(tornado.web.RequestHandler):
+    """Make the app."""
+
+    def set_default_headers(self):
+        """Make the app."""
+        print "setting headers!!!"
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
+    def post(self):
+        """Make the app."""
+        self.write('some post')
+
+    def get(self):
+        """Make the app."""
+        self.write('some get')
+
+    def options(self):
+        """Make the app."""
+        # no body
+        self.set_status(204)
+        self.finish()
+
+
 class MainHandler(tornado.web.RequestHandler):
     """Make the app."""
 
@@ -20,7 +45,7 @@ class MainHandler(tornado.web.RequestHandler):
 def make_app():
     """Make the app."""
     return tornado.web.Application([
-        (r"/taut", MainHandler),
+        (r"/taut", BaseHandler),
     ])
 
 
