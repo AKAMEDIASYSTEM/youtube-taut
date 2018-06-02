@@ -19,6 +19,7 @@ class BaseHandler(tornado.web.RequestHandler):
         payload = json.loads(self.request.body)
         for i in payload:
             print(i)
+            print(payload[i])
         self.write('some post')
 
     def get(self):
