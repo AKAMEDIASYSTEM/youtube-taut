@@ -1,6 +1,7 @@
 """Make the app."""
 import tornado.ioloop
 import tornado.web
+import json
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -15,6 +16,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def post(self):
         """Make the app."""
+        print(json.loads(self.request.body))
         self.write('some post')
 
     def get(self):
