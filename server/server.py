@@ -4,7 +4,10 @@ import tornado.web
 import json
 import logging
 from tornado.log import enable_pretty_logging
+
 enable_pretty_logging()
+# settings = {'debug': True, 'auth': True}
+settings = {'debug': True}
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -43,8 +46,8 @@ class BaseHandler(tornado.web.RequestHandler):
 def make_app():
     """Make the app."""
     return tornado.web.Application([
-        (r"/taut", BaseHandler),
-    ])
+        (r"/taut", BaseHandler)
+    ], **settings)
 
 
 if __name__ == "__main__":
