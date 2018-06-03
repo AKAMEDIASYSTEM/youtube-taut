@@ -50,7 +50,7 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     app = make_app()
-    # print("listening now")
+    print("listening now")
     logging.debug("listening now")
     app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
