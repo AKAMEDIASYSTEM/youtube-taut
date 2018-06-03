@@ -16,7 +16,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         """Make the app."""
         # print("setting headers, does this happen often")
-        logging.debug("setting headers, does this happen often")
+        logging.debug("setting headers, we need this for CORS (and CORBS!)")
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "*")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
