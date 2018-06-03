@@ -7,6 +7,7 @@ import logging
 from tornado.log import enable_pretty_logging
 
 enable_pretty_logging()
+logging.basicConfig(filename='youtube-taut-server.log', level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
 
@@ -82,7 +83,6 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     app = make_app()
-    print("listening now")
     logging.debug("listening now")
     app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
