@@ -25,7 +25,7 @@ class BaseHandler(tornado.web.RequestHandler):
             ss = ": ".join([str(i), str(payload[i])])
             # print(ss)
             logging.debug(ss)
-            print(payload[i])
+            # print(payload[i])
             logging.debug(payload[i])
         self.write('cool youtube action buddy')
 
