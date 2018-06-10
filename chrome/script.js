@@ -16,6 +16,11 @@ console.log("AKA - boy we are in SCRIPT.JS");
 
 function state() { console.log("State Changed!"); }
 
+
+// error wherein the youtube page sometimes has to be reloaded for the addEventListenet to be executed.
+// find a way to either continually retrigger this, or better check to see if the listener already exists
+// (and retrigger the checking function, in that case?)
+
 var player = document.getElementById("movie_player");
 
 player.addEventListener("onStateChange", function() { 
