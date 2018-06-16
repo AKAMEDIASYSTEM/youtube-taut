@@ -78,10 +78,10 @@
 
   function onMessage(evt)
   {
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    writeToScreen('<span style="color: blue;">Received from socket: ' + evt.data+'</span>');
     var theData = JSON.parse(evt.data);
     console.log(theData);
-    console.log(player.getVideoData());
+    console.log(player.getPlayerState());
     // if(player.getVideoData()[])
     if(player.getVideoData()['video_id'] == theData.theVid)
     {
