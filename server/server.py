@@ -54,17 +54,20 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
         """Open websocket."""
         logging.debug("socket OPEN - adding to connections")
+        print("ppp socket OPEN - adding to connections")
         self.connections.add(self)
 
     def on_message(self, message):
         """Send a message."""
         logging.debug("socket on_message, content: ")
+        print("ppp socket on_message, content: ")
         logging.debug(message)
-        [client.write_message(message) for client in self.connections]
+        [client.write_message(message.join("heynow")) for client in self.connections]
 
     def on_close(self):
         """Close websocket."""
         logging.debug("socket CLOSE")
+        print("ppp socket CLOSE")
         self.connections.remove(self)
 
 
