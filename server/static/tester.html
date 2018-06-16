@@ -86,12 +86,13 @@
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
     parseMessage(evt);
     console.log(evt);
-    console.log(evt.data['theVid']);
-    if(player.getVideoData()['video_id'] == evt.data.theVid)
+    obj foo = JSON.parse(evt.data);
+    console.log(foo);
+    if(player.getVideoData()['video_id'] == foo.theVid)
     {
-      writeToScreen('<span style="color: green;">hey: same video ' + evt.data.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+      writeToScreen('<span style="color: green;">hey: same video ' + foo.theVid+' '+player.getVideoData()['video_id'] +'</span>');
     } else {
-      writeToScreen('<span style="color: red;">hey: diff video ' + evt.data.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+      writeToScreen('<span style="color: red;">hey: diff video ' + foo.theVid+' '+player.getVideoData()['video_id'] +'</span>');
     }
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
