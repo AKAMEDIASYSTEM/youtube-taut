@@ -35,7 +35,7 @@ class BaseHandler(tornado.web.RequestHandler):
             print(payload[i])
             logging.debug(payload[i])
         self.write('cool youtube action buddy')
-        [client.write_message(ss) for client in connections]
+        [client.write_message(self.request.body) for client in connections]
 
     def get(self):
         """Make the app."""
