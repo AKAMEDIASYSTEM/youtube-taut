@@ -82,21 +82,27 @@
     var theData = JSON.parse(evt.data);
     console.log(theData);
     console.log(player.getPlayerState());
-    // if(player.getVideoData()[])
-    if(player.getVideoData()['video_id'] == theData.theVid)
-    {
-      if(player.getCurrentTime() == theData.theTime){
-        writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+    if(theData.theState == "playing"){
+      if(player.getVideoData()['video_id'] == theData.theVid)
+      {
+        if(player.getCurrentTime() == theData.theTime){
+          writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        } else {
+          // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
+          player.seekTo(theData.theTime, true);
+          writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
+        }
+        
       } else {
-        // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
-        player.seekTo(theData.theTime, true);
-        writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
+        writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        player.loadVideoById(theData.theVid, theData.theTime)
+      } else {
+        if(theData.theState == "paused"){
+          player.pauseVideo();
+          console.log("pausing");
+        }
       }
-      
-    } else {
-      writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
-      player.loadVideoById(theData.theVid, theData.theTime)
-    }
+  }
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
 
