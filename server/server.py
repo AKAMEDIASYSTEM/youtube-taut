@@ -12,13 +12,26 @@ logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
 
+global flag
+flag = False
+global payload
+payload = "a string"
+
+
+# def send_pluck(the_pluck):
+#     """Propagate youtube events across handlers."""
+#     global payload
+#     payload = the_pluck
+#     global flag
+#     flag = True
+
 
 class BaseHandler(tornado.web.RequestHandler):
     """Make the app."""
 
     def set_default_headers(self):
         """Make the app."""
-        # print("setting headers, does this happen often")
+        print("setting headers, does this happen often")
         logging.debug("setting headers, we need this for CORS (and CORBS!)")
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "*")
@@ -29,11 +42,12 @@ class BaseHandler(tornado.web.RequestHandler):
         payload = json.loads(self.request.body)
         for i in payload:
             ss = ": ".join([str(i), str(payload[i])])
-            # print(ss)
+            print(ss)
             logging.debug(ss)
-            # print(payload[i])
+            print(payload[i])
             logging.debug(payload[i])
         self.write('cool youtube action buddy')
+        [client.write_message(ss) for client in self.connections]
 
     def get(self):
         """Make the app."""
