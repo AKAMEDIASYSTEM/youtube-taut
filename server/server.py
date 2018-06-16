@@ -79,7 +79,7 @@ def make_app():
         (r"/taut", BaseHandler),
         (r"/websocket", SimpleWebSocket),
         (r"/", tornado.web.StaticFileHandler, {'path': 'tester.html'}),
-        (r"/tester.html", tornado.web.StaticFileHandler, {'path': 'tester.html'})
+        (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static'})
     ], **settings)
 
 
