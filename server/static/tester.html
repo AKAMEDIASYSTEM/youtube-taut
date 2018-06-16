@@ -3,6 +3,10 @@
   <title>the taut line between my time and yours</title>
   <script language="javascript" type="text/javascript">
 
+  var currentId = "";
+  var currentTime = 0;
+  var currentState = "paused";
+
 // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
 
@@ -36,14 +40,14 @@
       var done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
+          setTimeout(stopVideo, 20000);
           done = true;
         }
       }
       function stopVideo() {
         player.stopVideo();
       }
-  
+
 
   var wsUri = "wss://sublime.cloud/websocket";
   var output;
@@ -77,6 +81,7 @@
   function onMessage(evt)
   {
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    console.log(evt.data);
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
 
