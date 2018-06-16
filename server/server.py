@@ -78,6 +78,7 @@ def make_app():
     return tornado.web.Application([
         (r"/taut", BaseHandler),
         (r"/websocket", SimpleWebSocket),
+        (r"/", tornado.web.StaticFileHandler, {'path': 'tester.html'}),
         (r"/tester.html", tornado.web.StaticFileHandler, {'path': 'tester.html'})
     ], **settings)
 
