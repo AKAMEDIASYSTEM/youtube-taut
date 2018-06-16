@@ -89,6 +89,12 @@
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
     parseMessage(evt);
     console.log(evt.data);
+    if(player.videoId.equals(evt.data["theVid"]))
+    {
+      writeToScreen('<span style="color: green;">hey: same video ' + evt.data+'</span>');
+    } else {
+      writeToScreen('<span style="color: red;">hey: diff video ' + evt.data+'</span>');
+    }
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
 
