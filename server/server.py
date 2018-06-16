@@ -12,15 +12,6 @@ logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
 
-connections = []
-
-# def send_pluck(the_pluck):
-#     """Propagate youtube events across handlers."""
-#     global payload
-#     payload = the_pluck
-#     global flag
-#     flag = True
-
 
 class BaseHandler(tornado.web.RequestHandler):
     """Make the app."""
@@ -43,7 +34,7 @@ class BaseHandler(tornado.web.RequestHandler):
             print(payload[i])
             logging.debug(payload[i])
         self.write('cool youtube action buddy')
-        [client.write_message(ss) for client in self.connections]
+        [client.write_message(ss) for client in connections]
 
     def get(self):
         """Make the app."""
@@ -65,7 +56,7 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         """Open websocket."""
         logging.debug("socket OPEN - adding to connections")
         print("ppp socket OPEN - adding to connections")
-        self.connections.append(self)
+        connections.append(self)
 
     def on_message(self, message):
         """Send a message."""
@@ -73,7 +64,7 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         print("ppp socket on_message, content: ")
         logging.debug(message)
         print(message)
-        [client.write_message("+".join(message)) for client in self.connections]
+        [client.write_message("+".join(message)) for client in connections]
 
     def on_pluck(self, message):
         """Send a youtube-statechange message."""
@@ -81,18 +72,18 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         print("ppp socket on_pluck, content: ")
         logging.debug(message)
         print(message)
-        [client.write_message("-".join(message)) for client in self.connections]
+        [client.write_message("-".join(message)) for client in connections]
 
     def on_close(self):
         """Close websocket."""
         logging.debug("socket CLOSE")
         print("ppp socket CLOSE")
-        self.connections.remove(self)
+        connections.remove(self)
 
 
 def send_message_to_all(self, message):
     """Make the app."""
-    [con.write_message('Hi! Sent to ALL') for con in self.connections]
+    [con.write_message('Hi! Sent to ALL') for con in connections]
 
 
 def make_app():
@@ -107,6 +98,7 @@ def make_app():
 
 if __name__ == "__main__":
     """Make the app."""
+    connections = []
     app = make_app()
     logging.debug("listening now")
     app.listen(8888)
