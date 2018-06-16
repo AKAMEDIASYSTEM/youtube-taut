@@ -28,13 +28,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """Receive POST youtube event info from Chrome ext."""
         payload = json.loads(self.request.body)
         print(payload)
-        for i in payload:
-            ss = ": ".join([str(i), str(payload[i])])
-            print(ss)
-            logging.debug(ss)
-            print(payload[i])
-            logging.debug(payload[i])
-        self.write('cool youtube action buddy')
+        self.write('thanks for the tip-off buddy')
         [client.write_message(self.request.body) for client in connections]
 
     def get(self):
@@ -50,8 +44,6 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     """Websocket handler to talk to all clients."""
-
-    # connections = set()
 
     def open(self):
         """Open websocket."""
