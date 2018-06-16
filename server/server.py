@@ -12,11 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
 
-global flag
-flag = False
-global payload
-payload = "a string"
-
+connections = []
 
 # def send_pluck(the_pluck):
 #     """Propagate youtube events across handlers."""
@@ -63,13 +59,13 @@ class BaseHandler(tornado.web.RequestHandler):
 class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     """Websocket handler to talk to all clients."""
 
-    connections = set()
+    # connections = set()
 
     def open(self):
         """Open websocket."""
         logging.debug("socket OPEN - adding to connections")
         print("ppp socket OPEN - adding to connections")
-        self.connections.add(self)
+        self.connections.append(self)
 
     def on_message(self, message):
         """Send a message."""
