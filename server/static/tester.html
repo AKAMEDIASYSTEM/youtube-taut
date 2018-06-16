@@ -85,7 +85,7 @@
   {
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
     parseMessage(evt);
-    console.log(evt.data);
+    console.log(evt);
     console.log(evt.data['theVid']);
     if(player.getVideoData()['video_id'] == evt.data.theVid)
     {

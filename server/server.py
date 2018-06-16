@@ -29,7 +29,7 @@ class BaseHandler(tornado.web.RequestHandler):
         payload = json.loads(self.request.body)
         print(payload)
         self.write('thanks for the tip-off buddy')
-        [client.write_message(self.request.body) for client in connections]
+        [client.write_message(payload) for client in connections]
 
     def get(self):
         """Make the app."""
