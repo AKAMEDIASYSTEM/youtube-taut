@@ -63,7 +63,7 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         print("ppp socket on_message, content: ")
         logging.debug(message)
         print(message)
-        [client.write_message(message.join("heynow")) for client in self.connections]
+        [client.write_message("+".join(message)) for client in self.connections]
 
     def on_pluck(self, message):
         """Send a youtube-statechange message."""
@@ -71,7 +71,7 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         print("ppp socket on_pluck, content: ")
         logging.debug(message)
         print(message)
-        [client.write_message(message.join("heynow")) for client in self.connections]
+        [client.write_message("-".join(message)) for client in self.connections]
 
     def on_close(self):
         """Close websocket."""
