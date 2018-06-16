@@ -94,6 +94,7 @@
       
     } else {
       writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+      player.loadVideoById(theData.theVid, theData.theTime)
     }
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
