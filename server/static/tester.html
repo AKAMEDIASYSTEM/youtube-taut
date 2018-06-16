@@ -23,6 +23,11 @@
       height: '390',
       width: '640',
       videoId: 'c4iupf23d9U',
+      playerVars: {
+        autoplay: 1, // start automatically
+        controls: 0, // don't show the controls (we can't click them anyways)
+        modestbranding: 1, // show smaller logo
+      },
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -139,15 +144,3 @@ console.log("hey nowww");
   <h2>the taut line between my time and yours</h2>
 <div id="player"></div>
   <div id="output"></div>
-
-  <h4>autoplay, with muted</h4>
-<video autoplay muted loop>
-  <source src="chrome-clip.mp4" type="video/mp4">
-  <p>Your browser does not support the video element.</p>
-</video>
-
-<h4>autoplay, without muted</h4>
-<video autoplay loop>
-  <source src="chrome-clip.mp4" type="video/mp4">
-  <p>Your browser does not support the video element.</p>
-</video>
