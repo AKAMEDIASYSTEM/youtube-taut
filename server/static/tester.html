@@ -81,7 +81,8 @@
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
     var theData = JSON.parse(evt.data);
     console.log(theData);
-    console.log(player.getCurrentTime());
+    console.log(player.getVideoData());
+    // if(player.getVideoData()[])
     if(player.getVideoData()['video_id'] == theData.theVid)
     {
       if(player.getCurrentTime() == theData.theTime){
