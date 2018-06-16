@@ -27,6 +27,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def post(self):
         """Receive POST youtube event info from Chrome ext."""
         payload = json.loads(self.request.body)
+        print(payload)
         for i in payload:
             ss = ": ".join([str(i), str(payload[i])])
             print(ss)
