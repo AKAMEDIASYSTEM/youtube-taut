@@ -52,6 +52,11 @@
   var wsUri = "wss://sublime.cloud/websocket";
   var output;
 
+  function parseMessage(theEvent)
+  {
+    console.log(theEvent);
+  }
+
   function init()
   {
     output = document.getElementById("output");
@@ -81,6 +86,7 @@
   function onMessage(evt)
   {
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    parseMessage(evt);
     console.log(evt.data);
     // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
   }
