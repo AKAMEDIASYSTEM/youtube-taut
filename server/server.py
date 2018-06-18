@@ -7,7 +7,7 @@ import logging
 from tornado.log import enable_pretty_logging
 
 enable_pretty_logging()
-# logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', level=logging.DEBUG)
+logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', level=logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
@@ -25,10 +25,11 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def post(self):
         """Receive POST youtube event info from Chrome ext."""
-        payload = json.loads(self.request.body)
-        print(payload)
+        cur_payload = json.loads(self.request.body)
+        print(cur_payload)
         self.write('thanks for the tip-off buddy')
-        [client.write_message(json.dumps(payload)) for client in connections]
+        # next line is what actually forms the taut line; nice lil python list comp
+        [client.write_message(json.dumps(cur_payload)) for client in connections]
 
     def get(self):
         """Make the app."""
@@ -45,26 +46,20 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     """Websocket handler to talk to all clients."""
 
     def open(self):
-        """Open websocket."""
+        """Open websocket and tell client what we are watching."""
         logging.debug("socket OPEN - adding to connections")
         print("ppp socket OPEN - adding to connections")
         connections.append(self)
+        self.write_message(json.dumps(cur_payload))
+        print(cur_payload)
 
     def on_message(self, message):
-        """Send a message."""
+        """Send a message to all clients currently connected."""
         logging.debug("socket on_message, content: ")
         print("ppp socket on_message, content: ")
         logging.debug(message)
         print(message)
         [client.write_message("+".join(message)) for client in connections]
-
-    def on_pluck(self, message):
-        """Send a youtube-statechange message."""
-        logging.debug("socket on_pluck, content: ")
-        print("ppp socket on_pluck, content: ")
-        logging.debug(message)
-        print(message)
-        [client.write_message("-".join(message)) for client in connections]
 
     def on_close(self):
         """Close websocket."""
@@ -83,7 +78,7 @@ def make_app():
     return tornado.web.Application([
         (r"/taut", BaseHandler),
         (r"/websocket", SimpleWebSocket),
-        (r"/", tornado.web.StaticFileHandler, {'path': 'tester.html'}),
+        (r"/", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static/tester.html'}),
         (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static'})
     ], **settings)
 
@@ -91,6 +86,7 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     connections = []
+    cur_payload = {"theTime": 0, "theVid": "c4iupf23d9U"}
     app = make_app()
     logging.debug("listening now")
     app.listen(8888)
