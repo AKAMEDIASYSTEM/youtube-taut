@@ -111,8 +111,14 @@
     } else {
       // IF STATECHANGE IS NOT 'PLAYING'
         if(theData.theState == "paused"){
-          // player.pauseVideo();
-          console.log("pausing");
+          
+          if(player.getVideoData()['video_id'] == theData.theVid)
+          {
+            player.pauseVideo();
+            console.log("pausing and video is SAME!");
+          } else {
+            console.log("pausing and video is DIFFERENT!");
+          }
         }
       }
   }
