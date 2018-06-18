@@ -6,15 +6,19 @@ import json
 import logging
 from tornado.log import enable_pretty_logging
 
-enable_pretty_logging()
+# enable_pretty_logging()
 logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', level=logging.DEBUG)
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
 
 
 class BaseHandler(tornado.web.RequestHandler):
     """Make the app."""
+
+    # def initialize(self, cur_payload):
+    #     """Needed to have player state persist across all clients i think."""
+    #     self.cur_payload = cur_payload
 
     def set_default_headers(self):
         """Make the app."""
@@ -44,6 +48,10 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     """Websocket handler to talk to all clients."""
+
+    # def initialize(self, cur_payload):
+    #     """Needed to have player state persist across all clients i think."""
+    #     self.cur_payload = cur_payload
 
     def open(self):
         """Open websocket and tell client what we are watching."""
@@ -86,7 +94,7 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     connections = []
-    cur_payload = {"theTime": 0, "theVid": "c4iupf23d9U"}
+    cur_payload = {}
     app = make_app()
     logging.debug("listening now")
     app.listen(8888)
