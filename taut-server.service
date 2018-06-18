@@ -4,7 +4,7 @@ Description=AKA Python Youtube-taut tornado server service
 [Service]
 Type=simple
 WorkingDirectory=/var/www/youtube-taut/server/
-ExecStart=/usr/bin/python server.py
+ExecStart=/usr/bin/python server.py --logging=debug
 KillMode=process
 Restart=always
 RestartSec=5
