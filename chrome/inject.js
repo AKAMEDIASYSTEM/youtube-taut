@@ -5,9 +5,6 @@
 'use strict';
 console.log("AKA - beginning INJECT");
 
-
-
-
 var s = document.createElement('script');
 // NOTE: must add "script.js" to web_accessible_resources in manifest.json
 s.src = chrome.extension.getURL('script.js');

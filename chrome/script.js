@@ -14,15 +14,14 @@ var playerStates = {"-1" : "unstarted",
 
 console.log("AKA - boy we are in SCRIPT.JS");
 
-function state() { console.log("State Changed!"); }
-
-
 // error wherein the youtube page sometimes has to be reloaded for the addEventListenet to be executed.
 // find a way to either continually retrigger this, or better check to see if the listener already exists
 // (and retrigger the checking function, in that case?)
 
 var player = document.getElementById("movie_player");
-
+console.log("AKA - player found, it is");
+console.log(player);
+if(player){
 player.addEventListener("onStateChange", function() { 
     let theState = playerStates[player.getPlayerState().toString()];
     let theTime = player.getCurrentTime();
@@ -38,9 +37,8 @@ player.addEventListener("onStateChange", function() {
             "theVid": theVid
         }));    
     }
-    
-    // get more playerState stuff and make https POST request from here to your YOUTUBE_TAUT server
     });
+}
 
 console.log("AKA - end of SCRIPT.JS");
 
