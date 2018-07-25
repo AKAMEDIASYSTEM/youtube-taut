@@ -9,6 +9,7 @@ from tornado.log import enable_pretty_logging
 # enable_pretty_logging()
 logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', level=logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG)
+settings = {'debug': True}
 
 
 class LastState(object):
@@ -36,7 +37,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def set_default_headers(self):
         """Make the app."""
-        logging.debug("setting headers, we need this for CORS (and CORBS!)")
+        # logging.debug("setting headers, we need this for CORS (and CORBS!)")
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "*")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
@@ -74,6 +75,8 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         print("ppp socket OPEN - adding to connections")
         connections.append(self)
         self.write_message(json.dumps(self.last_state))
+        logging.debug('sent last_state to new socket client')
+        logging.debug(self.last_state)
         print(self.last_state)
 
     def on_message(self, message):
@@ -99,8 +102,8 @@ def send_message_to_all(self, message):
 def make_app():
     """Make the app."""
     return tornado.web.Application([
-        (r"/taut", BaseHandler),
-        (r"/websocket", SimpleWebSocket),
+        (r"/taut", BaseHandler, dict(last_state=last_state)),
+        (r"/websocket", SimpleWebSocket, dict(last_state=last_state)),
         (r"/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static/tester2.html'}),
         (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static'})
     ], **settings)
@@ -114,5 +117,4 @@ if __name__ == "__main__":
     logging.debug("listening now")
     app.listen(8888)
     last_state = LastState()
-    settings = {'debug': True, last_state: last_state}
     tornado.ioloop.IOLoop.current().start()
