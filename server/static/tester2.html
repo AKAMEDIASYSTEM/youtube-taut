@@ -71,19 +71,19 @@
 
   function onOpen(evt)
   {
-    writeToScreen("CONNECTED");
+    // writeToScreen("CONNECTED");
     // doSend("youtube-taut bimper rocks");
   }
 
   function onClose(evt)
   {
-    writeToScreen("DISCONNECTED");
+    // writeToScreen("DISCONNECTED");
     window.location.reload();
   }
 
   function onMessage(evt)
   {
-    writeToScreen('<span style="color: blue;">Received from socket: ' + evt.data+'</span>');
+    // writeToScreen('<span style="color: blue;">Received from socket: ' + evt.data+'</span>');
     var theData = JSON.parse(evt.data);
     console.log(theData);
     console.log(player.getPlayerState());
@@ -95,16 +95,16 @@
       if(player.getVideoData()['video_id'] == theData.theVid)
       {
         if(player.getCurrentTime() == theData.theTime){
-          writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+          // writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
         } else {
           // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
           player.seekTo(theData.theTime, true);
           player.playVideo();
-          writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
+          // writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
         }
       } else 
       {
-        writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        // writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
         player.loadVideoById(theData.theVid, theData.theTime)
         // player.playVideo();
       }
@@ -131,7 +131,7 @@
 
   function doSend(message)
   {
-    writeToScreen("SENT: " + message);
+    // writeToScreen("SENT: " + message);
     websocket.send(message);
   }
 
