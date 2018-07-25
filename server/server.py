@@ -34,6 +34,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def initialize(self, last_state):
         """Needed to have player state persist across all clients i think."""
         self.last_state = last_state
+        print('self.last_state now is:')
+        print(self.last_state.get())
 
     def set_default_headers(self):
         """Make the app."""
