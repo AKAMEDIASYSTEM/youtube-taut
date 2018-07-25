@@ -41,8 +41,7 @@
   }
 
   // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
+  //    The function indicates that when playing a video (state=1)
   var done = false;
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING && !done) {
@@ -71,6 +70,7 @@
 
   function onOpen(evt)
   {
+    // should do an init query here to get the last state from server
     // writeToScreen("CONNECTED");
     // doSend("youtube-taut bimper rocks");
   }
@@ -91,7 +91,7 @@
     //  IF STATECHANGE IS STILL 'PLAYING'
     if(theData.theState == "playing")
     {
-      // IF THE VIDEO ID IS STIL THE SAME, JUST SCRUB TO NEW POSITION AND RESUME PLAY
+      // IF THE VIDEO ID IS STILL THE SAME, JUST SCRUB TO NEW POSITION AND RESUME PLAY
       if(player.getVideoData()['video_id'] == theData.theVid)
       {
         if(player.getCurrentTime() == theData.theTime){
@@ -147,6 +147,7 @@
 console.log("hey nowww");
   </script>
 
-  <h2>the taut line between my time and yours</h2>
+  <h2>the taut line between my time and yours (prototype!)</h2>
+  <div>when the page loads, press "play" and then "pause," and I'll take it from there</br>hugs from <a href="https://aka.farm">AKA</a></div>
 <div id="player"></div>
   <div id="output"></div>
