@@ -45,6 +45,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def post(self):
         """Receive POST youtube event info from Chrome ext."""
         self.last_state.set(json.loads(self.request.body))
+        print('showing last_state next line:')
         print(self.last_state.get())
         logging.debug(self.last_state.get())
         self.write('thanks for the tip-off buddy')
