@@ -101,6 +101,7 @@ def send_message_to_all(self, message):
 
 def make_app():
     """Make the app."""
+    last_state = LastState()
     return tornado.web.Application([
         (r"/taut", BaseHandler, dict(last_state=last_state)),
         (r"/websocket", SimpleWebSocket, dict(last_state=last_state)),
@@ -112,9 +113,8 @@ def make_app():
 if __name__ == "__main__":
     """Make the app."""
     connections = []
-    cur_payload = {}
+    # cur_payload = {}
     app = make_app()
     logging.debug("listening now")
     app.listen(8888)
-    last_state = LastState()
     tornado.ioloop.IOLoop.current().start()
