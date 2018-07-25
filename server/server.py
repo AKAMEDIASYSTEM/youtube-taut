@@ -47,7 +47,6 @@ class BaseHandler(tornado.web.RequestHandler):
         self.last_state.set(json.loads(self.request.body))
         print(self.last_state.get())
         logging.debug(self.last_state.get())
-
         self.write('thanks for the tip-off buddy')
         # next line is what actually forms the taut line; nice lil python list comp
         ls = self.last_state.get()
