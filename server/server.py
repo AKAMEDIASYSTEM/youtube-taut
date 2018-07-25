@@ -11,6 +11,7 @@ logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', le
 # logging.basicConfig(level=logging.DEBUG)
 # settings = {'debug': True, 'auth': True}
 settings = {'debug': True}
+lastPayload = {}
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -31,13 +32,14 @@ class BaseHandler(tornado.web.RequestHandler):
         """Receive POST youtube event info from Chrome ext."""
         cur_payload = json.loads(self.request.body)
         print(cur_payload)
+        logging.debug(cur_payload)
         self.write('thanks for the tip-off buddy')
         # next line is what actually forms the taut line; nice lil python list comp
         [client.write_message(json.dumps(cur_payload)) for client in connections]
 
     def get(self):
         """Make the app."""
-        self.write("My dude, you're not supposed to do GETs on this server")
+        self.write("My buddy, you're not supposed to do GETs on this server")
 
     def options(self):
         """Make the app."""
