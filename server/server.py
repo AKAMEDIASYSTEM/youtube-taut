@@ -44,12 +44,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def post(self):
         """Receive POST youtube event info from Chrome ext."""
-        cur_payload = json.loads(self.request.body)
-        print(cur_payload)
-        logging.debug(cur_payload)
+        self.last_state.set(json.loads(self.request.body))
+        print(self.last_state)
+        logging.debug(self.last_state)
+
         self.write('thanks for the tip-off buddy')
         # next line is what actually forms the taut line; nice lil python list comp
-        [client.write_message(json.dumps(cur_payload)) for client in connections]
+        [client.write_message(json.dumps(self.last_state)) for client in connections]
 
     def get(self):
         """Make the app."""
