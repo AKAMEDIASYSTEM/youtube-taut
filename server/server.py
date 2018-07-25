@@ -9,17 +9,30 @@ from tornado.log import enable_pretty_logging
 # enable_pretty_logging()
 logging.basicConfig(filename='/var/www/youtube-taut/youtube-taut-server.log', level=logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG)
-# settings = {'debug': True, 'auth': True}
-settings = {'debug': True}
-lastPayload = {}
+
+
+class LastState(object):
+    """store the latest state globally for new visitors."""
+
+    def __init__(self):
+        """Initialize with nothing."""
+        self.ls = {}
+
+    def set(self, ns):
+        """Set the var."""
+        self.ls = ns
+
+    def get(self):
+        """Get the var."""
+        return self.ls
 
 
 class BaseHandler(tornado.web.RequestHandler):
     """Make the app."""
 
-    # def initialize(self, cur_payload):
-    #     """Needed to have player state persist across all clients i think."""
-    #     self.cur_payload = cur_payload
+    def initialize(self, last_state):
+        """Needed to have player state persist across all clients i think."""
+        self.last_state = last_state
 
     def set_default_headers(self):
         """Make the app."""
@@ -51,17 +64,17 @@ class BaseHandler(tornado.web.RequestHandler):
 class SimpleWebSocket(tornado.websocket.WebSocketHandler):
     """Websocket handler to talk to all clients."""
 
-    # def initialize(self, cur_payload):
-    #     """Needed to have player state persist across all clients i think."""
-    #     self.cur_payload = cur_payload
+    def initialize(self, last_state):
+        """Needed to have player state persist across all clients i think."""
+        self.last_state = last_state
 
     def open(self):
         """Open websocket and tell client what we are watching."""
         logging.debug("socket OPEN - adding to connections")
         print("ppp socket OPEN - adding to connections")
         connections.append(self)
-        self.write_message(json.dumps(cur_payload))
-        print(cur_payload)
+        self.write_message(json.dumps(self.last_state))
+        print(self.last_state)
 
     def on_message(self, message):
         """Send a message to all clients currently connected."""
@@ -100,4 +113,6 @@ if __name__ == "__main__":
     app = make_app()
     logging.debug("listening now")
     app.listen(8888)
+    last_state = LastState()
+    settings = {'debug': True, last_state: last_state}
     tornado.ioloop.IOLoop.current().start()
