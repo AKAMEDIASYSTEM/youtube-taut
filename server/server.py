@@ -45,12 +45,13 @@ class BaseHandler(tornado.web.RequestHandler):
     def post(self):
         """Receive POST youtube event info from Chrome ext."""
         self.last_state.set(json.loads(self.request.body))
-        print(self.last_state)
-        logging.debug(self.last_state)
+        print(self.last_state.get())
+        logging.debug(self.last_state.get())
 
         self.write('thanks for the tip-off buddy')
         # next line is what actually forms the taut line; nice lil python list comp
-        [client.write_message(json.dumps(self.last_state)) for client in connections]
+        ls = self.last_state.get()
+        [client.write_message(json.dumps(ls)) for client in connections]
 
     def get(self):
         """Make the app."""
@@ -75,10 +76,10 @@ class SimpleWebSocket(tornado.websocket.WebSocketHandler):
         logging.debug("socket OPEN - adding to connections")
         print("ppp socket OPEN - adding to connections")
         connections.append(self)
-        self.write_message(json.dumps(self.last_state))
+        self.write_message(json.dumps(self.last_state.get()))
         logging.debug('sent last_state to new socket client')
-        logging.debug(self.last_state)
-        print(self.last_state)
+        logging.debug(self.last_state.get())
+        print(self.last_state.get())
 
     def on_message(self, message):
         """Send a message to all clients currently connected."""
