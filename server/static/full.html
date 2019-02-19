@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+  <meta charset="utf-8" />
+  <title>the taut line between my time and yours</title>
+  <script language="javascript" type="text/javascript">
+
+  var currentId = "";
+  var currentTime = 0;
+  var currentState = "paused";
+  var wsUri = "wss://sublime.cloud/websocket";
+  var output;
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '390',
+      width: '640',
+      videoId: 'c4iupf23d9U',
+      playerVars: {
+        autoplay: 1, // start automatically
+        controls: 0, // don't show the controls (we can't click them anyways)
+        modestbranding: 1, // show smaller logo
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+      // setTimeout(stopVideo, 20000);
+      done = true;
+    }
+  }
+  function stopVideo() {
+    player.stopVideo();
+  }
+
+  function init()
+  {
+    output = document.getElementById("output");
+    testWebSocket();
+  }
+
+  function testWebSocket()
+  {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+  }
+
+  function onOpen(evt)
+  {
+    writeToScreen("CONNECTED");
+    // doSend("youtube-taut bimper rocks");
+  }
+
+  function onClose(evt)
+  {
+    writeToScreen("DISCONNECTED");
+    window.location.reload();
+  }
+
+  function onMessage(evt)
+  {
+    //writeToScreen('<span style="color: blue;">Received from socket: ' + evt.data+'</span>');
+    var theData = JSON.parse(evt.data);
+    console.log(theData);
+    console.log(player.getPlayerState());
+
+    //  IF STATECHANGE IS STILL 'PLAYING'
+    if(theData.theState == "playing")
+    {
+      // IF THE VIDEO ID IS STIL THE SAME, JUST SCRUB TO NEW POSITION AND RESUME PLAY
+      if(player.getVideoData()['video_id'] == theData.theVid)
+      {
+        if(player.getCurrentTime() == theData.theTime){
+          writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        } else {
+          // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
+          player.seekTo(theData.theTime, true);
+          player.playVideo();
+          writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
+        }
+      } else 
+      {
+        writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        player.loadVideoById(theData.theVid, theData.theTime)
+        // player.playVideo();
+      }
+    } else {
+      // IF STATECHANGE IS NOT 'PLAYING'
+        if(theData.theState == "paused"){
+          
+          if(player.getVideoData()['video_id'] == theData.theVid)
+          {
+            player.pauseVideo();
+            console.log("pausing and video is SAME!");
+          } else {
+            console.log("pausing and video is DIFFERENT!");
+          }
+        }
+      }
+  }
+    // websocket.close(); // don't close, meant to be open forever (how to auto-resume if disconnected?)
+
+  function onError(evt)
+  {
+    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+  }
+
+  function doSend(message)
+  {
+    //writeToScreen("SENT: " + message);
+    websocket.send(message);
+  }
+
+  function writeToScreen(message)
+  {
+    var pre = document.createElement("p");
+    pre.style.wordWrap = "break-word";
+    pre.innerHTML = message;
+    output.appendChild(pre);
+  }
+
+  window.addEventListener("load", init, false);
+console.log("hey nowww");
+  </script>
+
+  <h2>the taut line between my time and yours</h2>
+  <div>when the page loads, press "play" and then "pause," and I'll take it from there</br>hugs from <a href="https://aka.farm">AKA</a></div>
+<div id="player"></div>
+  <div id="output"></div>
