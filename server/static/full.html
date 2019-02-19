@@ -22,7 +22,7 @@
     player = new YT.Player('player', {
       height: '390',
       width: '640',
-      videoId: 'c4iupf23d9U',
+      videoId: 'D0dA0oA2FMY',
       playerVars: {
         autoplay: 1, // start automatically
         controls: 0, // don't show the controls (we can't click them anyways)
@@ -71,13 +71,13 @@
 
   function onOpen(evt)
   {
-    writeToScreen("CONNECTED");
+    // writeToScreen("CONNECTED");
     // doSend("youtube-taut bimper rocks");
   }
 
   function onClose(evt)
   {
-    writeToScreen("DISCONNECTED");
+    // writeToScreen("DISCONNECTED");
     window.location.reload();
   }
 
@@ -95,16 +95,16 @@
       if(player.getVideoData()['video_id'] == theData.theVid)
       {
         if(player.getCurrentTime() == theData.theTime){
-          writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+          // writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
         } else {
           // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
           player.seekTo(theData.theTime, true);
           player.playVideo();
-          writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
+          // writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
         }
       } else 
       {
-        writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+        // writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
         player.loadVideoById(theData.theVid, theData.theTime)
         // player.playVideo();
       }
@@ -126,7 +126,8 @@
 
   function onError(evt)
   {
-    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    // writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    console.log(evt.data);
   }
 
   function doSend(message)
@@ -137,17 +138,14 @@
 
   function writeToScreen(message)
   {
-    var pre = document.createElement("p");
-    pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
+    console.log(message);
+    // var pre = document.createElement("p");
+    // pre.style.wordWrap = "break-word";
+    // pre.innerHTML = message;
+    // output.appendChild(pre);
   }
 
   window.addEventListener("load", init, false);
-console.log("hey nowww");
+console.log("hey nowww let us pluck that taut line");
   </script>
-
-  <h2>the taut line between my time and yours</h2>
-  <div>when the page loads, press "play" and then "pause," and I'll take it from there</br>hugs from <a href="https://aka.farm">AKA</a></div>
 <div id="player"></div>
-  <div id="output"></div>
