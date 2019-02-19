@@ -20,8 +20,8 @@
   var player;
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height: '390',
-      width: '640',
+      // height: '390',
+      // width: '640',
       videoId: 'D0dA0oA2FMY',
       playerVars: {
         autoplay: 1, // start automatically
@@ -148,4 +148,4 @@
   window.addEventListener("load", init, false);
 console.log("hey nowww let us pluck that taut line");
   </script>
-<div id="player"></div>
+<div id="player" width="100%" height="auto"></div>
