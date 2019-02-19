@@ -21,7 +21,7 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
       // height: '390',
-      // width: '640',
+      width: '100%',
       videoId: 'D0dA0oA2FMY',
       playerVars: {
         autoplay: 1, // start automatically
@@ -83,7 +83,7 @@
 
   function onMessage(evt)
   {
-    //writeToScreen('<span style="color: blue;">Received from socket: ' + evt.data+'</span>');
+    console.log("received a socket broadcast from taut-line server");
     var theData = JSON.parse(evt.data);
     console.log(theData);
     console.log(player.getPlayerState());
@@ -95,16 +95,14 @@
       if(player.getVideoData()['video_id'] == theData.theVid)
       {
         if(player.getCurrentTime() == theData.theTime){
-          // writeToScreen('<span style="color: green;">hey: same video same time' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
+          console.log("videos are synced, nothing to do here");
         } else {
           // player.seekTo(seconds:Number, allowSeekAhead:Boolean):Void
           player.seekTo(theData.theTime, true);
           player.playVideo();
-          // writeToScreen('<span style="color: green;">hey: same video diff time' + theData.theTime+' '+player.getVideoData()['video_id'] +'</span>');  
         }
       } else 
       {
-        // writeToScreen('<span style="color: red;">hey: diff video ' + theData.theVid+' '+player.getVideoData()['video_id'] +'</span>');
         player.loadVideoById(theData.theVid, theData.theTime)
         // player.playVideo();
       }
@@ -115,9 +113,9 @@
           if(player.getVideoData()['video_id'] == theData.theVid)
           {
             player.pauseVideo();
-            console.log("pausing and video is SAME!");
+            console.log("pausing the current video");
           } else {
-            console.log("pausing and video is DIFFERENT!");
+            console.log("pausing and somehow the video is different");
           }
         }
       }
@@ -126,23 +124,17 @@
 
   function onError(evt)
   {
-    // writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
     console.log(evt.data);
   }
 
   function doSend(message)
   {
-    //writeToScreen("SENT: " + message);
     websocket.send(message);
   }
 
   function writeToScreen(message)
   {
     console.log(message);
-    // var pre = document.createElement("p");
-    // pre.style.wordWrap = "break-word";
-    // pre.innerHTML = message;
-    // output.appendChild(pre);
   }
 
   window.addEventListener("load", init, false);
