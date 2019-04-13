@@ -109,7 +109,8 @@ def make_app():
     return tornado.web.Application([
         (r"/taut", BaseHandler, dict(last_state=last_state)),
         (r"/websocket", SimpleWebSocket, dict(last_state=last_state)),
-        (r"/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static/full.html'}),
+        # (r"/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static/full.html'}),
+        (r"/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static/tester2.html'}),
         (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': '/var/www/youtube-taut/server/static'})
     ], **settings)
 
